@@ -1,0 +1,113 @@
+﻿.about-section {
+    position: relative;
+    padding: 100px 0;
+    background: var(--dark);
+    overflow: hidden;
+}
+
+.particles-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.section-subtitle {
+    font-size: 1rem;
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 1rem;
+    display: block;
+}
+
+/* Stats Cards */
+.stats-row {
+    margin-top: 50px;
+}
+
+.stat-card {
+    padding: 2rem;
+    text-align: center;
+    margin-bottom: 30px;
+    transform-style: preserve-3d;
+    transition: transform 0.5s ease;
+}
+
+    .stat-card:hover {
+        transform: translateZ(20px) rotateX(10deg) rotateY(10deg);
+    }
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+    font-family: var(--font-primary);
+}
+
+.stat-label {
+    color: var(--light);
+    font-size: 1rem;
+    opacity: 0.8;
+}
+
+/* Feature Cards */
+.feature-card {
+    padding: 2.5rem;
+    text-align: center;
+    margin-bottom: 30px;
+    transition: all 0.4s ease;
+    position: relative;
+    z-index: 1;
+}
+
+    .feature-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--gradient-1);
+        opacity: 0;
+        transition: opacity 0.4s ease;
+        z-index: -1;
+        border-radius: 20px;
+    }
+
+    .feature-card:hover::before {
+        opacity: 0.1;
+    }
+
+    .feature-card:hover {
+        transform: translateY(-10px);
+    }
+
+.feature-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 1.5rem;
+    background: var(--gradient-1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    .feature-icon i {
+        font-size: 2rem;
+        color: var(--light);
+    }
+
+.feature-card h3 {
+    color: var(--primary);
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+.feature-card p {
+    color: var(--light);
+    opacity: 0.8;
+}

@@ -1,0 +1,41 @@
+﻿@if (User.Identity.IsAuthenticated)
+{
+    <ul class="navbar-nav">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Welcome @User.Identity.Name!
+            </a>
+            <ul class="dropdown-menu text-black" aria-labelledby="navbarDropdown">
+                @if (User.IsInRole("admin"))
+                {
+                    <li><a class="dropdown-item text-black" asp-controller="Admin" asp-action="Dashboard">Dashboard</a></li>
+                }
+                @if (User.IsInRole("instructor"))
+                {
+                    <li><a class="dropdown-item" asp-controller="Instructor" asp-action="Dashboard">Dashboard</a></li>
+                }
+                @if (User.IsInRole("student"))
+                {
+                    <li><a class="dropdown-item" asp-controller="Student" asp-action="Dashboard">Dashboard</a></li>
+                }
+                <li><hr class="dropdown-divider"></li>
+                <li>
+                    <form asp-controller="Account" asp-action="Logout" method="post">
+                        <button type="submit" class="dropdown-item text-black ">Logout</button>
+                    </form>
+                </li>
+            </ul>
+        </li>
+    </ul>
+}
+else
+{
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" asp-controller="Account" asp-action="Login">Login</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" asp-controller="Account" asp-action="Register">Register</a>
+        </li>
+    </ul>
+}

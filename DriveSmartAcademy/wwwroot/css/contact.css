@@ -1,0 +1,230 @@
+﻿.contact-section {
+    padding: 100px 0;
+    background: linear-gradient(135deg, #151c2c 0%, #2c3e50 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+    .contact-section .container {
+        position: relative;
+        z-index: 2;
+    }
+
+.contact-orbs {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* This ensures the orbs don't interfere with clicks */
+    z-index: 1; /* Place behind content */
+}
+
+.orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.1;
+}
+
+.orb-3 {
+    width: 400px;
+    height: 400px;
+    background: var(--accent);
+    top: 20%;
+    right: -200px;
+    animation: orbFloat 20s infinite alternate;
+}
+
+.orb-4 {
+    width: 300px;
+    height: 300px;
+    background: var(--primary);
+    bottom: 10%;
+    left: -150px;
+    animation: orbFloat 15s infinite alternate-reverse;
+}
+
+.contact-wrapper {
+    margin-top: 50px;
+}
+
+/* Contact Cards */
+.contact-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.contact-card {
+    padding: 25px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+    .contact-card .card-icon {
+        width: 50px;
+        height: 50px;
+        background: var(--gradient-1);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+        .contact-card .card-icon i {
+            color: var(--light);
+            font-size: 1.2rem;
+        }
+
+    .contact-card .card-content h4 {
+        color: var(--primary);
+        margin-bottom: 5px;
+        font-size: 1.1rem;
+    }
+
+    .contact-card .card-content p {
+        color: var(--light);
+        margin: 0;
+        font-size: 0.9rem;
+        opacity: 0.8;
+    }
+
+    .contact-card .hover-effect {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--gradient-1);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .contact-card:hover .hover-effect {
+        opacity: 0.1;
+    }
+
+/* Contact Form */
+.contact-form {
+    padding: 40px;
+}
+
+.form-floating {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+    .form-floating select.form-control {
+        color: #000000;
+    }
+
+        .form-floating select.form-control option {
+            color: #000000;
+        }
+
+        .form-floating select.form-control:not(:checked) {
+            color: #000000;
+        }
+
+        .form-floating select.form-control:focus {
+            color: #000000;
+        }
+
+.select form-control
+
+.glass-input {
+    background: var(--glass) !important;
+    border: 1px solid var(--glass-border) !important;
+    height: 60px !important;
+    padding: 1rem !important;
+    color: #000000 !important;
+    font-weight: 500 !important;
+}
+
+    .glass-input:focus {
+        box-shadow: none !important;
+        border-color: var(--primary) !important;
+    }
+
+.form-floating label {
+    color: var(--light);
+    opacity: 0.7;
+}
+
+.input-focus-effect {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: var(--primary);
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+.glass-input:focus ~ .input-focus-effect {
+    width: 100%;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 30px;
+    background: var(--gradient-1);
+    color: var(--light);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+    .submit-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(0,123,255,0.2);
+    }
+
+    .submit-btn i {
+        transition: transform 0.3s ease;
+    }
+
+    .submit-btn:hover i {
+        transform: translateX(5px);
+    }
+
+/* Social Links */
+.social-links-wrapper {
+    margin-top: 50px;
+    text-align: center;
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.social-link {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--light);
+    transition: all 0.3s ease;
+}
+
+    .social-link:hover {
+        transform: translateY(-5px);
+        color: var(--primary);
+    }

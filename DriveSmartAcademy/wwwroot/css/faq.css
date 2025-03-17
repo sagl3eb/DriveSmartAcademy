@@ -1,0 +1,94 @@
+﻿/* FAQ Section Styles */
+.faq-section {
+    padding: 100px 0;
+    background: var(--dark);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Glass card styling for accordion items */
+.accordion-item {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px !important;
+    margin-bottom: 20px;
+    transition: transform 0.3s ease;
+}
+
+    .accordion-item:hover {
+        transform: translateY(-5px);
+    }
+
+/* Accordion button styling */
+.accordion-button {
+    background: transparent;
+    color: white;
+    font-weight: 500;
+    padding: 25px 30px;
+    border: none;
+    border-radius: 15px !important;
+    transition: all 0.3s ease;
+}
+
+    .accordion-button:not(.collapsed) {
+        background: linear-gradient(135deg, rgba(0, 123, 255, 0.1) 0%, rgba(0, 210, 255, 0.1) 100%);
+        color: #00d2ff;
+        box-shadow: none;
+        border-bottom-left-radius: 0 !important;
+        border-bottom-right-radius: 0 !important;
+    }
+
+    .accordion-button:focus {
+        box-shadow: none;
+        border-color: transparent;
+    }
+
+    /* Custom arrow styling */
+    .accordion-button::after {
+        background-image: none;
+        content: '+';
+        font-size: 1.5rem;
+        color: #00d2ff;
+        transition: transform 0.3s ease;
+    }
+
+    .accordion-button:not(.collapsed)::after {
+        content: '−';
+        transform: rotate(0deg);
+    }
+
+/* Accordion content styling */
+.accordion-body {
+    background: rgba(255, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.8);
+    padding: 25px 30px;
+    line-height: 1.6;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+
+/* Hover effects */
+.accordion-button:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* Add a subtle glow effect on hover */
+.accordion-item:hover {
+    box-shadow: 0 0 30px rgba(0, 210, 255, 0.1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .faq-section {
+        padding: 60px 0;
+    }
+
+    .accordion-button {
+        padding: 20px;
+    }
+
+    .accordion-body {
+        padding: 20px;
+    }
+}

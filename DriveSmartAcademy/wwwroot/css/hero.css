@@ -1,0 +1,138 @@
+﻿.hero-section {
+    position: relative;
+    overflow: hidden;
+    background: var(--dark);
+}
+
+.hero-background {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.animated-shapes .shape {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(40px);
+    opacity: 0.4;
+    animation: floatAnimation 8s infinite ease-in-out;
+}
+
+.shape-1 {
+    width: 300px;
+    height: 300px;
+    background: var(--primary);
+    top: -150px;
+    right: -150px;
+}
+
+.shape-2 {
+    width: 200px;
+    height: 200px;
+    background: var(--secondary);
+    bottom: -100px;
+    left: -100px;
+    animation-delay: -2s;
+}
+
+.shape-3 {
+    width: 150px;
+    height: 150px;
+    background: var(--accent);
+    top: 50%;
+    left: 50%;
+    animation-delay: -4s;
+}
+
+.hero-subtitle {
+    font-size: 1.2rem;
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.hero-title {
+    font-size: 4.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+}
+
+.hero-text {
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 2rem;
+}
+
+.btn-glow {
+    background: var(--gradient-1);
+    color: white;
+    border: none;
+    padding: 15px 40px;
+    border-radius: 30px;
+    font-weight: 600;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 209, 255, 0.4);
+}
+
+    .btn-glow:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0, 209, 255, 0.6);
+    }
+
+.btn-outline {
+    background: transparent;
+    color: white;
+    border: 2px solid var(--primary);
+    padding: 15px 40px;
+    border-radius: 30px;
+    font-weight: 600;
+    margin-left: 15px;
+    transition: all 0.3s ease;
+}
+
+    .btn-outline:hover {
+        background: var(--primary);
+        color: var(--dark);
+    }
+
+.hero-image-wrapper {
+    position: relative;
+    padding: 2rem;
+}
+
+.hero-image {
+    width: 100%;
+    animation: floatAnimation 6s infinite ease-in-out;
+}
+
+.floating-card {
+    position: absolute;
+    padding: 1.5rem;
+    bottom: 2rem;
+    right: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    animation: floatAnimation 5s infinite ease-in-out;
+}
+
+.card-icon i {
+    font-size: 1.5rem;
+    color: var(--primary);
+}
+
+@keyframes floatAnimation {
+    0%, 100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-20px);
+    }
+}

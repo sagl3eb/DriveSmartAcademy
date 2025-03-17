@@ -1,0 +1,104 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard - Drive Smart Academy</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="~/css/admin/admin.css" />
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <img src="~/img/logo.png" alt="Logo" class="logo" />
+                <h3>Drive Smart</h3>
+            </div>
+
+            <div class="sidebar-menu">
+                <ul class="nav-links">
+                    <li class="nav-link">
+                        <a asp-area="" asp-controller="Admin" asp-action="Dashboard">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-link">
+                        <a asp-area="" asp-controller="Admin" asp-action="ManageUsers">
+                            <i class="fas fa-users"></i>
+                            <span>User Management</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-link">
+                        <a asp-area="" asp-controller="Admin" asp-action="ManageCourses">
+                            <i class="fas fa-book"></i>
+                            <span>Learning Content</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-link">
+                        <a asp-area="" asp-controller="Admin" asp-action="ManageExams">
+                            <i class="fas fa-clipboard-check"></i>
+                            <span>Exams & Quizzes</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-link">
+                        <a asp-area="" asp-controller="Admin" asp-action="MonitorPerformance">
+                            <i class="fas fa-chart-line"></i>
+                            <span>Performance</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-link">
+                        <a asp-area="" asp-controller="Admin" asp-action="Communications">
+                            <i class="fas fa-comments"></i>
+                            <span>Communications</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="sidebar-footer">
+                <a asp-area="" asp-controller="Account" asp-action="Logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Header -->
+            <header class="top-header">
+                <div class="header-search">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search...">
+                </div>
+                <div class="header-right">
+                    <div class="admin-profile">
+                        <span>@User.Identity.Name</span>
+                        <img src="~/img/admin-avatar.png" alt="Admin" class="avatar" />
+                    </div>
+                </div>
+            </header>
+
+            <!-- Page Content -->
+            <div class="content-wrapper">
+                @RenderBody()
+            </div>
+        </main>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

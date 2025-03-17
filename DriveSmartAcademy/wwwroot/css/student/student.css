@@ -1,0 +1,232 @@
+﻿:root {
+    --primary-color: #00a8ff;
+    --secondary-color: #192a56;
+    --accent-color: #0097e6;
+    --light-color: #f5f6fa;
+    --dark-color: #2f3640;
+    --text-color: #333;
+    --sidebar-width: 250px;
+    --sidebar-collapsed-width: 70px;
+    --header-height: 60px;
+}
+
+/* Dashboard Layout */
+.dashboard-wrapper {
+    display: flex;
+    min-height: 100vh;
+    background-color: #f0f2f5;
+}
+
+/* Sidebar */
+.sidebar {
+    width: var(--sidebar-width);
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: var(--secondary-color);
+    color: white;
+    transition: all 0.3s;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+    .sidebar.active {
+        width: var(--sidebar-collapsed-width);
+    }
+
+.sidebar-header {
+    padding: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    color: white;
+    font-weight: 700;
+    font-size: 1.2rem;
+    text-decoration: none;
+}
+
+    .logo:hover {
+        color: var(--primary-color);
+    }
+
+.sidebar-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex-grow: 1;
+}
+
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    color: rgba(255, 255, 255, 0.7);
+    padding: 12px 15px;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+    .sidebar-link:hover, .sidebar-link.active {
+        color: white;
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .sidebar-link i {
+        margin-right: 10px;
+        font-size: 1.2rem;
+        min-width: 25px;
+        text-align: center;
+    }
+
+.sidebar.active .sidebar-link span {
+    display: none;
+}
+
+.sidebar-footer {
+    padding: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.logout-btn {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.7);
+    padding: 10px 0;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+    .logout-btn:hover {
+        color: white;
+    }
+
+    .logout-btn i {
+        margin-right: 10px;
+    }
+
+.sidebar.active .logout-btn span {
+    display: none;
+}
+
+/* Main Content */
+.main-content {
+    margin-left: var(--sidebar-width);
+    width: calc(100% - var(--sidebar-width));
+    transition: all 0.3s;
+}
+
+.sidebar.active + .main-content {
+    margin-left: var(--sidebar-collapsed-width);
+    width: calc(100% - var(--sidebar-collapsed-width));
+}
+
+.top-navbar {
+    background-color: white;
+    height: var(--header-height);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.user-dropdown {
+    color: var(--text-color);
+    text-decoration: none;
+}
+
+    .user-dropdown:hover {
+        color: var(--primary-color);
+    }
+
+.content {
+    padding: 20px;
+}
+
+/* Dashboard Cards */
+.dashboard-card {
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s;
+    overflow: hidden;
+}
+
+    .dashboard-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    }
+
+.icon-box {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background-color: rgba(0, 168, 255, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+    .icon-box i {
+        font-size: 1.4rem;
+        color: var(--primary-color);
+    }
+
+/* Table Styling */
+.table {
+    margin-bottom: 0;
+}
+
+    .table th {
+        border-top: 0;
+        font-weight: 600;
+        padding: 12px;
+    }
+
+    .table td {
+        padding: 12px;
+        vertical-align: middle;
+    }
+
+/* Progress Bar */
+.progress {
+    height: 8px;
+    border-radius: 4px;
+}
+
+.progress-bar {
+    background-color: var(--primary-color);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 767.98px) {
+    .sidebar {
+        margin-left: calc(-1 * var(--sidebar-width));
+    }
+
+        .sidebar.active {
+            margin-left: 0;
+            width: var(--sidebar-width);
+        }
+
+            .sidebar.active .sidebar-link span {
+                display: inline;
+            }
+
+            .sidebar.active .logout-btn span {
+                display: inline;
+            }
+
+    .main-content {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    .sidebar.active + .main-content {
+        margin-left: 0;
+    }
+}

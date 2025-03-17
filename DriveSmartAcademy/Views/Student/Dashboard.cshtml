@@ -1,0 +1,210 @@
+﻿@model DriveSmartAcademy.ViewModels.StudentDashboardViewModel
+@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "_StudentLayout";
+}
+
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="mb-4">Welcome, @Model.StudentName</h1>
+        </div>
+    </div>
+
+    <!-- Dashboard Summary Section -->
+    <div class="row mb-4">
+        <div class="col-md-6 col-xl-3 mb-4">
+            <div class="card dashboard-card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="text-muted">Enrolled Courses</h6>
+                            <h3 class="mt-2">@(Model.EnrolledCourses?.Count ?? 0)</h3>
+                        </div>
+                        <div class="icon-box">
+                            <i class="bi bi-book"></i>
+                        </div>
+                    </div>
+                    <a asp-action="ViewCourses" class="stretched-link"></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xl-3 mb-4">
+            <div class="card dashboard-card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="text-muted">Overall Progress</h6>
+                            <h3 class="mt-2">@(Model.OverallProgress?.OverallPercentage ?? 0)%</h3>
+                        </div>
+                        <div class="icon-box">
+                            <i class="bi bi-graph-up"></i>
+                        </div>
+                    </div>
+                    <a asp-action="TrackProgress" class="stretched-link"></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xl-3 mb-4">
+            <div class="card dashboard-card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="text-muted">Completed Quizzes</h6>
+                            <h3 class="mt-2">@(Model.OverallProgress?.CompletedQuizzes ?? 0)</h3>
+                        </div>
+                        <div class="icon-box">
+                            <i class="bi bi-check2-circle"></i>
+                        </div>
+                    </div>
+                    <a asp-action="ViewQuizResults" class="stretched-link"></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xl-3 mb-4">
+            <div class="card dashboard-card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="text-muted">Theory Exams</h6>
+                            <h3 class="mt-2">@(Model.DrivingTheoryExams?.Count ?? 0)</h3>
+                        </div>
+                        <div class="icon-box">
+                            <i class="bi bi-file-earmark-text"></i>
+                        </div>
+                    </div>
+                    <a asp-action="TakeDrivingTheoryExam" class="stretched-link"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Courses Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">My Courses</h5>
+                    <a asp-action="ViewCourses" class="btn btn-sm btn-primary">View All</a>
+                </div>
+                <div class="card-body">
+                    @if (Model.EnrolledCourses != null && Model.EnrolledCourses.Any())
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Course</th>
+                                        <th>Enrolled Date</th>
+                                        <th>Progress</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var course in Model.EnrolledCourses.Take(3))
+                                    {
+                                        <tr>
+                                            <td>@course.CourseName</td>
+                                            <td>@course.EnrollmentDate.ToString("MMM dd, yyyy")</td>
+                                            <td>
+                                                <div class="progress">
+                                                    <div class="progress-bar" role="progressbar" style="width: @(course.CompletionPercentage)%;"
+                                                         aria-valuenow="@course.CompletionPercentage" aria-valuemin="0" aria-valuemax="100">
+                                                        @course.CompletionPercentage%
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <a asp-action="SelectCourse" asp-route-id="@course.CourseId" class="btn btn-sm btn-outline-primary">Continue</a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="text-center py-4">
+                            <p class="mb-3">You're not enrolled in any courses yet.</p>
+                            <a asp-action="ViewCourses" class="btn btn-primary">Browse Courses</a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quiz Results and Feedback Section -->
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Recent Quiz Results</h5>
+                    <a asp-action="ViewQuizResults" class="btn btn-sm btn-primary">View All</a>
+                </div>
+                <div class="card-body">
+                    @if (Model.RecentQuizResults != null && Model.RecentQuizResults.Any())
+                    {
+                        <div class="list-group">
+                            @foreach (var quiz in Model.RecentQuizResults.Take(3))
+                            {
+                                <div class="list-group-item list-group-item-action">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h6 class="mb-1">@quiz.QuizName</h6>
+                                        <small>@quiz.Score%</small>
+                                    </div>
+                                    <p class="mb-1">@quiz.CourseName</p>
+                                    <small>@quiz.CompletionDate.ToString("MMM dd, yyyy")</small>
+                                </div>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="text-center py-4">
+                            <p>No quiz results available yet.</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Feedback</h5>
+                    <a asp-action="GiveFeedback" class="btn btn-sm btn-primary">Give Feedback</a>
+                </div>
+                <div class="card-body">
+                    @if (Model.StudentFeedback != null)
+                    {
+                        <div class="feedback-container">
+                            <h6>Your Feedback:</h6>
+                            <p>@Model.StudentFeedback.FeedbackText</p>
+                            <small class="text-muted">Submitted on @Model.StudentFeedback.FeedbackDate.ToString("MMM dd, yyyy")</small>
+
+                            @if (!string.IsNullOrEmpty(Model.StudentFeedback.InstructorResponse))
+                            {
+                                <hr>
+                                <h6>Instructor Response:</h6>
+                                <p>@Model.StudentFeedback.InstructorResponse</p>
+                                <small class="text-muted">Responded on @Model.StudentFeedback.ResponseDate?.ToString("MMM dd, yyyy")</small>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="text-center py-4">
+                            <p class="mb-3">No feedback provided yet.</p>
+                            <a asp-action="GiveFeedback" class="btn btn-primary">Give Feedback</a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

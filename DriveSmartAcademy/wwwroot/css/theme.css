@@ -1,0 +1,71 @@
+﻿:root {
+    /* Modern, Futuristic Color Palette */
+    --primary: #00D1FF; /* Electric Blue */
+    --secondary: #FF3DDB; /* Neon Pink */
+    --accent: #6C63FF; /* Purple */
+    --dark: #111827; /* Deep Navy */
+    --light: #F3F4FF; /* Light Purple White */
+    --gradient-1: linear-gradient(135deg, #00D1FF 0%, #6C63FF 100%);
+    --gradient-2: linear-gradient(135deg, #FF3DDB 0%, #6C63FF 100%);
+    --glass: rgba(255, 255, 255, 0.1);
+    --glass-border: rgba(255, 255, 255, 0.05);
+    /* Typography */
+    --font-primary: 'Space Grotesk', sans-serif;
+    --font-secondary: 'Outfit', sans-serif;
+}
+
+/* Global Styles */
+body {
+    font-family: var(--font-secondary);
+    background-color: var(--dark);
+    color: var(--light);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-primary);
+}
+
+/* Modern Scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--dark);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--primary);
+    border-radius: 5px;
+}
+
+/* Glassmorphism Card */
+.glass-card {
+    background: var(--glass);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+}
+
+/* Animated Gradient Text */
+.gradient-text {
+    background: var(--gradient-1);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: gradient 5s ease infinite;
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}

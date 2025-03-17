@@ -1,0 +1,667 @@
+﻿@{
+    ViewData["Title"] = "Home";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/about.css" />
+    <link rel="stylesheet" href="~/css/contact.css" />
+    <link rel="stylesheet" href="~/css/courses.css" />
+    <link rel="stylesheet" href="~/css/hero.css" />
+    <link rel="stylesheet" href="~/css/reviews.css" />
+    <link rel="stylesheet" href="~/css/theme.css" />
+}
+
+@* Hero Section *@
+<section class="hero-section" id="hero">
+    <div class="hero-background">
+        <div class="animated-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+        </div>
+    </div>
+    <div class="container position-relative">
+        <div class="row align-items-center min-vh-100">
+            <div class="col-lg-6">
+                <span class="hero-subtitle">Your Online Driving Instructor</span>
+                <h1 class="hero-title gradient-text">Drive Smart Academy</h1>
+                <p class="hero-text">Master the future of driving education with our cutting-edge virtual learning platform.</p>
+                <div class="hero-cta">
+                    <button class="btn-glow" onclick="window.location.href='@Url.Action("Register", "Account")'">Start Learning</button>
+                    <button class="btn-outline">Watch Demo</button>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="hero-image-wrapper">
+                    <img src="~/imgs/hero-background.png" alt="Modern Car" class="hero-image" />
+                    <div class="floating-card glass-card">
+                        <div class="card-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <p>Advanced Safety Features</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@* About Section *@
+<section id="about" class="about-section">
+    <div id="particles-js" class="particles-background"></div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <span class="section-subtitle">ABOUT US</span>
+                <h2 class="section-title gradient-text">Driving Into The Future</h2>
+            </div>
+        </div>
+        <!-- Stats Counter -->
+        <div class="row stats-row">
+            <div class="col-md-3 col-6">
+                <div class="stat-card glass-card">
+                    <div class="stat-number">
+                        <span class="counter" data-target="5000">0</span>+
+                    </div>
+                    <div class="stat-label">Students Trained</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="stat-card glass-card">
+                    <div class="stat-number">
+                        <span class="counter" data-target="98">0</span>%
+                    </div>
+                    <div class="stat-label">Success Rate</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="stat-card glass-card">
+                    <div class="stat-number">
+                        <span class="counter" data-target="15">0</span>+
+                    </div>
+                    <div class="stat-label">Years Experience</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="stat-card glass-card">
+                    <div class="stat-number">
+                        <span class="counter" data-target="50">0</span>k+
+                    </div>
+                    <div class="stat-label">Online Classes</div>
+                </div>
+            </div>
+        </div>
+        <!-- Features -->
+        <div class="row mt-5">
+            <div class="col-lg-4">
+                <div class="feature-card glass-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <h3>Interactive Learning</h3>
+                    <p>Access comprehensive study materials and practice tests at your own pace through our user-friendly online platform.</p>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="feature-card glass-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-certificate"></i>
+                    </div>
+                    <h3>Certified Instructors</h3>
+                    <p>Learn from experienced, state-certified driving instructors who are dedicated to your success and safety.</p>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="feature-card glass-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Progress Tracking</h3>
+                    <p>Monitor your improvement with advanced analytics and real-time performance metrics with statiscal insight.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@*Courses Section*@
+<section id="courses" class="courses-section">
+    <div class="container">
+        <div class="text-center mb-5">
+            <span class="section-subtitle">OUR COURSES</span>
+            <h2 class="section-title">Our Driving Courses</h2>
+        </div>
+
+        <div class="row">
+            <!-- Beginner Course -->
+            <div class="col-lg-4 mb-4">
+                <div class="course-card">
+                    <div class="course-card-inner">
+                        <!-- Front -->
+                        <div class="course-card-front glass-card">
+                            <div class="course-icon">
+                                <i class="fas fa-car"></i>
+                            </div>
+                            <h3>Beginner's Course</h3>
+                            <div class="course-duration">
+                                <i class="fas fa-clock"></i>
+                                <span>30 Hours</span>
+                            </div>
+                            <p class="course-description">Perfect for new drivers starting their journey on the road.</p>
+                            <button class="details-btn">View Details</button>
+                        </div>
+                        <!-- Back -->
+                        <div class="course-card-back glass-card">
+                            <h4>Course Features</h4>
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check"></i> Basic driving principles</li>
+                                <li><i class="fas fa-check"></i> Traffic rules and signals</li>
+                                <li><i class="fas fa-check"></i> Vehicle controls</li>
+                                <li><i class="fas fa-check"></i> Parking techniques</li>
+                            </ul>
+                            <button class="enroll-btn">Enroll Now</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Defensive Driving -->
+            <div class="col-lg-4 mb-4">
+                <div class="course-card">
+                    <div class="course-card-inner">
+                        <div class="course-card-front glass-card">
+                            <div class="course-icon">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <h3>Defensive Driving</h3>
+                            <div class="course-duration">
+                                <i class="fas fa-clock"></i>
+                                <span>20 Hours</span>
+                            </div>
+                            <p class="course-description">Learn advanced techniques for safer driving in all conditions.</p>
+                            <button class="details-btn">View Details</button>
+                        </div>
+                        <div class="course-card-back glass-card">
+                            <h4>Course Features</h4>
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check"></i> Hazard recognition</li>
+                                <li><i class="fas fa-check"></i> Emergency maneuvers</li>
+                                <li><i class="fas fa-check"></i> Weather condition driving</li>
+                                <li><i class="fas fa-check"></i> Accident prevention</li>
+                            </ul>
+                            <button class="enroll-btn">Enroll Now</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Advanced Skills -->
+            <div class="col-lg-4 mb-4">
+                <div class="course-card">
+                    <div class="course-card-inner">
+                        <div class="course-card-front glass-card">
+                            <div class="course-icon">
+                                <i class="fas fa-trophy"></i>
+                            </div>
+                            <h3>Advanced Skills</h3>
+                            <div class="course-duration">
+                                <i class="fas fa-clock"></i>
+                                <span>25 Hours</span>
+                            </div>
+                            <p class="course-description">Master advanced driving skills and complex traffic scenarios.</p>
+                            <button class="details-btn">View Details</button>
+                        </div>
+                        <div class="course-card-back glass-card">
+                            <h4>Course Features</h4>
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check"></i> Advanced maneuvering</li>
+                                <li><i class="fas fa-check"></i> Night driving techniques</li>
+                                <li><i class="fas fa-check"></i> Highway driving skills</li>
+                                <li><i class="fas fa-check"></i> Complex traffic situations</li>
+                            </ul>
+                            <button class="enroll-btn">Enroll Now</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@*Reviews Section*@
+<section id="reviews" class="reviews-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <span class="section-subtitle">TESTIMONIALS</span>
+                <h2 class="section-title">What Our Students Say</h2>
+            </div>
+        </div>
+
+        <div class="slider-container">
+            <div class="slider-wrapper">
+                <div class="slider-track">
+                    <!-- Review Card 1 -->
+                    <div class="slide">
+                        <div class="review-card glass-card">
+                            <div class="review-header">
+                                <div class="review-avatar">
+                                    <div class="avatar-ring"></div>
+                                    <span>SM</span>
+                                </div>
+                                <div class="review-info">
+                                    <h4>Sarah Mitchell</h4>
+                                    <div class="rating">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <span class="rating-score">5.0</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="review-content">
+                                <p>"The virtual learning experience was incredible! The interactive simulations helped me understand complex driving scenarios easily."</p>
+                            </div>
+                            <div class="review-footer">
+                                <span class="course-tag">Beginner's Course</span>
+                                <span class="review-date">2 weeks ago</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Review Card 2 -->
+                    <div class="slide">
+                        <div class="review-card glass-card">
+                            <div class="review-header">
+                                <div class="review-avatar">
+                                    <div class="avatar-ring"></div>
+                                    <span>JD</span>
+                                </div>
+                                <div class="review-info">
+                                    <h4>John Davis</h4>
+                                    <div class="rating">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star-half-alt"></i>
+                                        <span class="rating-score">4.5</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="review-content">
+                                <p>"The defensive driving course really opened my eyes to potential hazards. I feel much more confident handling emergency situations now."</p>
+                            </div>
+                            <div class="review-footer">
+                                <span class="course-tag">Defensive Driving</span>
+                                <span class="review-date">1 month ago</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Review Card 3 -->
+                    <div class="slide">
+                        <div class="review-card glass-card">
+                            <div class="review-header">
+                                <div class="review-avatar">
+                                    <div class="avatar-ring"></div>
+                                    <span>EW</span>
+                                </div>
+                                <div class="review-info">
+                                    <h4>Emma Wilson</h4>
+                                    <div class="rating">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <span class="rating-score">5.0</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="review-content">
+                                <p>"The flexible learning schedule was perfect for my busy lifestyle. I could practice and learn at my own pace, which really helped me master the concepts."</p>
+                            </div>
+                            <div class="review-footer">
+                                <span class="course-tag">Advanced Skills</span>
+                                <span class="review-date">3 weeks ago</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Review Card 4 -->
+                    <div class="slide">
+                        <div class="review-card glass-card">
+                            <div class="review-header">
+                                <div class="review-avatar">
+                                    <div class="avatar-ring"></div>
+                                    <span>MR</span>
+                                </div>
+                                <div class="review-info">
+                                    <h4>Michael Rodriguez</h4>
+                                    <div class="rating">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <span class="rating-score">5.0</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="review-content">
+                                <p>"Clear instructions and detailed explanations made learning to drive much less stressful. The practice tests really helped prepare me for the actual exam."</p>
+                            </div>
+                            <div class="review-footer">
+                                <span class="course-tag">Beginner's Course</span>
+                                <span class="review-date">1 week ago</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Review Card 5 -->
+                    <div class="slide">
+                        <div class="review-card glass-card">
+                            <div class="review-header">
+                                <div class="review-avatar">
+                                    <div class="avatar-ring"></div>
+                                    <span>AP</span>
+                                </div>
+                                <div class="review-info">
+                                    <h4>Alice Parker</h4>
+                                    <div class="rating">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star-half-alt"></i>
+                                        <span class="rating-score">4.5</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="review-content">
+                                <p>"The night driving techniques section was particularly helpful. I appreciate how the course covered all aspects of advanced driving scenarios."</p>
+                            </div>
+                            <div class="review-footer">
+                                <span class="course-tag">Advanced Skills</span>
+                                <span class="review-date">2 months ago</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Review Card 6 -->
+                    <div class="slide">
+                        <div class="review-card glass-card">
+                            <div class="review-header">
+                                <div class="review-avatar">
+                                    <div class="avatar-ring"></div>
+                                    <span>TK</span>
+                                </div>
+                                <div class="review-info">
+                                    <h4>Tom Kennedy</h4>
+                                    <div class="rating">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <span class="rating-score">5.0</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="review-content">
+                                <p>"The course material was comprehensive and well-structured. The real-world examples and case studies made it easy to understand defensive driving concepts."</p>
+                            </div>
+                            <div class="review-footer">
+                                <span class="course-tag">Defensive Driving</span>
+                                <span class="review-date">3 weeks ago</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="slider-nav prev-btn">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="slider-nav next-btn">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+    </div>
+</section>
+
+@*FAQ Section*@
+<!-- FAQ Section -->
+<div id="faq" class="faq-section mb-3">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <span class="section-subtitle">FAQ</span>
+                <h2 class="section-title gradient-text">Frequently Asked Questions</h2>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="accordion" id="faqAccordion">
+                    <!-- FAQ Item 1 -->
+                    <div class="accordion-item glass-card">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                How long does the beginner's course take to complete?
+                            </button>
+                        </h2>
+                        <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Our beginner's course typically takes 30 hours to complete. This includes both theoretical and practical modules. You can complete the course at your own pace within a 3-month access period.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FAQ Item 2 -->
+                    <div class="accordion-item glass-card">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                Are your courses certified?
+                            </button>
+                        </h2>
+                        <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Yes, all our courses are certified by the State Department of Motor Vehicles and meet all required educational standards for driver training. Upon completion, you'll receive an official certificate.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FAQ Item 3 -->
+                    <div class="accordion-item glass-card">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                Can I access the course materials on my mobile device?
+                            </button>
+                        </h2>
+                        <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Yes, our platform is fully responsive and works on all devices including smartphones, tablets, and computers. You can switch between devices seamlessly while maintaining your progress.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FAQ Item 4 -->
+                    <div class="accordion-item glass-card">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                                What payment methods do you accept?
+                            </button>
+                        </h2>
+                        <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                We accept all major credit cards, debit cards, and PayPal. We also offer flexible payment plans to make our courses more accessible. Contact us for more information about payment options.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FAQ Item 5 -->
+                    <div class="accordion-item glass-card">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
+                                How soon can I start after enrolling?
+                            </button>
+                        </h2>
+                        <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                You can start immediately after enrolling! Once your payment is processed, you'll receive instant access to all course materials and can begin your learning journey right away.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FAQ Item 6 -->
+                    <div class="accordion-item glass-card">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq6">
+                                What happens if I don't pass the final test?
+                            </button>
+                        </h2>
+                        <div id="faq6" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Don't worry! You can retake the final test up to three times at no additional cost. We also provide additional study materials and support to help you succeed. Our instructors are always available to help you understand any challenging topics.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*Contact Section*@
+<section id="contact" class="contact-section">
+    <div class="contact-orbs">
+        <div class="orb orb-3"></div>
+        <div class="orb orb-4"></div>
+    </div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <span class="section-subtitle">GET IN TOUCH</span>
+                <h2 class="section-title gradient-text">Let's Start Your Journey</h2>
+            </div>
+        </div>
+        <div class="row contact-wrapper">
+            <!-- Contact Info Cards -->
+            <div class="col-lg-4">
+                <div class="contact-cards">
+                    <div class="contact-card glass-card">
+                        <div class="card-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="card-content">
+                            <h4>Visit Us</h4>
+                            <p>123 Jln OS<br>Serdang, Seri Kembangan 43300</p>
+                        </div>
+                        <div class="hover-effect"></div>
+                    </div>
+
+                    <div class="contact-card glass-card">
+                        <div class="card-icon">
+                            <i class="fas fa-phone-alt"></i>
+                        </div>
+                        <div class="card-content">
+                            <h4>Call Us</h4>
+                            <p>+60 178701925<br>Mon-Fri 9:00-18:00</p>
+                        </div>
+                        <div class="hover-effect"></div>
+                    </div>
+
+                    <div class="contact-card glass-card">
+                        <div class="card-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="card-content">
+                            <h4>Email Us</h4>
+                            <p>info@drivesmartacademy.com<br>support@drivesmartacademy.com</p>
+                        </div>
+                        <div class="hover-effect"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- Contact Form -->
+            <div class="col-lg-8">
+                <div class="contact-form glass-card">
+                    <form id="contactForm">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control glass-input" id="name" placeholder="Your Name" required>
+                                    <label for="name">Your Name</label>
+                                    <div class="input-focus-effect"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="email" class="form-control glass-input" id="email" placeholder="Your Email" required>
+                                    <label for="email">Your Email</label>
+                                    <div class="input-focus-effect"></div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    <select class="form-control glass-input" id="course" required>
+                                        <option value="" selected disabled>Select a Course</option>
+                                        <option value="beginner">Beginner's Course</option>
+                                        <option value="defensive">Defensive Driving</option>
+                                        <option value="advanced">Advanced Skills</option>
+                                    </select>
+                                    <label for="course">Select Course</label>
+                                    <div class="input-focus-effect"></div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    <textarea class="form-control glass-input" id="message" placeholder="Your Message" style="height: 150px" required></textarea>
+                                    <label for="message">Your Message</label>
+                                    <div class="input-focus-effect"></div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="submit-btn btn-glow">
+                                    <span>Send Message</span>
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- Social Media Links -->
+        <div class="social-links-wrapper">
+            <div class="social-links">
+                <a href="#" class="social-link glass-card">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="#" class="social-link glass-card">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="#" class="social-link glass-card">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="#" class="social-link glass-card">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+@*Back To Top*@
+
+@section Scripts {
+    <script src="~/js/contact.js"></script>
+    <script src="~/js/courses.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="~/js/particles.config.js"></script>
+    <script src="~/js/reviews.js"></script>
+}
