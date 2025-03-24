@@ -1,0 +1,95 @@
+@model DriveSmartAcademy.ViewModels.FeedbackViewModel
+@{
+    ViewData["Title"] = "Give Feedback";
+    Layout = "_StudentLayout";
+}
+
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-action="Dashboard">Dashboard</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Give Feedback</li>
+                </ol>
+            </nav>
+            <h1 class="mb-4">Give Feedback</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Share Your Learning Experience</h5>
+                </div>
+                <div class="card-body">
+                    @if (TempData["SuccessMessage"] != null)
+                    {
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            @TempData["SuccessMessage"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    }
+
+                    <form asp-action="GiveFeedback" method="post">
+                        <div class="mb-3">
+                            <label asp-for="FeedbackText" class="form-label">Your Feedback</label>
+                            <textarea asp-for="FeedbackText" class="form-control" rows="6" 
+                                      placeholder="Tell us what you think about our courses, instructors, or platform..."></textarea>
+                            <span asp-validation-for="FeedbackText" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Rate Your Experience</label>
+                            <div class="rating-stars">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="Rating" id="rating1" value="1">
+                                    <label class="form-check-label" for="rating1">1</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="Rating" id="rating2" value="2">
+                                    <label class="form-check-label" for="rating2">2</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="Rating" id="rating3" value="3">
+                                    <label class="form-check-label" for="rating3">3</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="Rating" id="rating4" value="4">
+                                    <label class="form-check-label" for="rating4">4</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="Rating" id="rating5" value="5" checked>
+                                    <label class="form-check-label" for="rating5">5</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a asp-action="Dashboard" class="btn btn-outline-secondary me-md-2">Cancel</a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-send me-2"></i>Submit Feedback
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .rating-stars {
+        display: flex;
+        align-items: center;
+    }
+    
+    .form-check-inline {
+        margin-right: 1.5rem;
+    }
+</style>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+} 

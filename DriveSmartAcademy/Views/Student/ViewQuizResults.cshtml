@@ -1,0 +1,310 @@
+@model List<DriveSmartAcademy.ViewModels.ExamResultViewModel>
+@{
+    ViewData["Title"] = "Quiz Results";
+    Layout = "_StudentLayout";
+}
+
+<div class="container-fluid py-2">
+    <div class="row mb-2">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-1">
+                    <li class="breadcrumb-item"><a asp-action="Dashboard">Dashboard</a></li>
+                    <li class="breadcrumb-item active">Quiz Results</li>
+                </ol>
+            </nav>
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <h1 class="mb-0">Quiz Results</h1>
+                <a asp-action="TakeDrivingTheoryExam" asp-controller="Student" class="btn btn-primary">
+                    <i class="bi bi-play-fill me-1"></i>Take New Exam
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Performance Summary -->
+        <div class="col-md-4 mb-3">
+            <div class="card h-100">
+                <div class="card-header bg-primary text-white py-2">
+                    <h5 class="mb-0"><i class="bi bi-graph-up me-2"></i>Performance Summary</h5>
+                </div>
+                <div class="card-body py-2">
+                    <div class="row g-3 mb-3">
+                        <div class="col-6">
+                            <div class="card border-0 bg-light">
+                                <div class="card-body p-2 text-center">
+                                    <h2 class="mb-0" id="averageScore">85%</h2>
+                                    <small class="text-muted">Average Score</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="card border-0 bg-light">
+                                <div class="card-body p-2 text-center">
+                                    <h2 class="mb-0" id="passRate">60%</h2>
+                                    <small class="text-muted">Pass Rate</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="card border-0 bg-light">
+                                <div class="card-body p-2 text-center">
+                                    <h2 class="mb-0" id="totalExams">@Model.Count</h2>
+                                    <small class="text-muted">Total Exams</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="card border-0 bg-light">
+                                <div class="card-body p-2 text-center">
+                                    <h2 class="mb-0" id="bestScore">95%</h2>
+                                    <small class="text-muted">Best Score</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h6 class="mb-2">Areas for Improvement</h6>
+                    <ul class="list-group list-group-flush">
+                        <!-- Will be filled dynamically -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Exam History -->
+        <div class="col-md-8 mb-3">
+            <div class="card h-100">
+                <div class="card-header bg-primary text-white py-2">
+                    <h5 class="mb-0"><i class="bi bi-clock-history me-2"></i>Exam History</h5>
+                </div>
+                <div class="card-body py-2">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-sm">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Exam Type</th>
+                                    <th>Score</th>
+                                    <th>Time Taken</th>
+                                    <th>Result</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model != null && Model.Any())
+                                {
+                                    @foreach (var exam in Model)
+                                    {
+                                        <tr>
+                                            <td>@exam.Date</td>
+                                            <td>@exam.Type</td>
+                                            <td>@exam.Score</td>
+                                            <td>@exam.TimeTaken</td>
+                                            <td><span class="badge @exam.ResultClass">@exam.Result</span></td>
+                                            <td>
+                                                <button class="btn btn-sm btn-outline-primary" onclick="viewExamDetails(@exam.Id)">
+                                                    <i class="bi bi-eye"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="6" class="text-center py-3">
+                                            <div class="alert alert-info mb-0">
+                                                <i class="bi bi-info-circle me-2"></i>
+                                                No exam results found. Take a driving theory exam to see your results here.
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Exam Details Modal -->
+<div class="modal fade" id="examDetailsModal" tabindex="-1" aria-labelledby="examDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white py-2">
+                <h5 class="modal-title" id="examDetailsModalLabel">Exam Details</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <div class="d-flex flex-column">
+                            <p><strong>Date:</strong> <span id="modalDate">May 15, 2023</span></p>
+                            <p><strong>Exam Type:</strong> <span id="modalType">Driving Theory</span></p>
+                            <p><strong>Time Taken:</strong> <span id="modalTime">32:45</span></p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="d-flex flex-column">
+                            <p><strong>Score:</strong> <span id="modalScore">95% (19/20)</span></p>
+                            <p><strong>Result:</strong> <span id="modalResult" class="badge bg-success">Passed</span></p>
+                            <p><strong>Passing Score:</strong> 85%</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h6 class="mb-2">Question Summary</h6>
+                <div class="table-responsive">
+                    <table class="table table-sm table-bordered">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Question</th>
+                                <th>Your Answer</th>
+                                <th>Correct Answer</th>
+                                <th>Result</th>
+                            </tr>
+                        </thead>
+                        <tbody id="modalQuestionTable">
+                            <!-- Will be filled dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <a asp-action="TakeDrivingTheoryExam" asp-controller="Student" class="btn btn-primary">Take New Exam</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Exam results data
+        let examResults = @Html.Raw(Json.Serialize(Model));
+        
+        // Function to initialize the page
+        function initializePage() {
+            // Calculate and update summary statistics
+            updateSummaryStatistics();
+        }
+        
+        // Function to update summary statistics
+        function updateSummaryStatistics() {
+            if (!examResults || examResults.length === 0) {
+                document.getElementById('averageScore').textContent = 'N/A';
+                document.getElementById('passRate').textContent = 'N/A';
+                document.getElementById('totalExams').textContent = '0';
+                document.getElementById('bestScore').textContent = 'N/A';
+                return;
+            }
+            
+            // Calculate average score
+            const scores = examResults.map(exam => parseInt(exam.score.split('%')[0]));
+            const averageScore = scores.reduce((a, b) => a + b, 0) / scores.length;
+            document.getElementById('averageScore').textContent = Math.round(averageScore) + '%';
+
+            // Calculate pass rate
+            const passedExams = examResults.filter(exam => exam.result === 'Passed').length;
+            const passRate = (passedExams / examResults.length) * 100;
+            document.getElementById('passRate').textContent = Math.round(passRate) + '%';
+
+            // Set best score
+            const bestScore = Math.max(...scores);
+            document.getElementById('bestScore').textContent = bestScore + '%';
+            
+            // Update areas for improvement
+            updateAreasForImprovement();
+        }
+        
+        // Function to update areas for improvement
+        function updateAreasForImprovement() {
+            // For now, we'll use static improvement areas
+            // In a real application, this would be calculated from the question data
+            const improvementAreas = [
+                { category: 'Traffic Signs', percentage: 65 },
+                { category: 'Right of Way', percentage: 70 },
+                { category: 'Parking Rules', percentage: 75 }
+            ];
+            
+            // Update UI with category scores
+            const improvementList = document.querySelector('.list-group-flush');
+            improvementList.innerHTML = '';
+            
+            improvementAreas.forEach(area => {
+                const colorClass = area.percentage < 70 ? 'bg-danger' : 
+                                  area.percentage < 85 ? 'bg-warning' : 'bg-success';
+                
+                const listItem = document.createElement('li');
+                listItem.className = 'list-group-item py-2 px-0 border-0';
+                listItem.innerHTML = `
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                        <span class="small">${area.category}</span>
+                        <span class="small text-muted">${area.percentage}%</span>
+                    </div>
+                    <div class="progress" style="height: 6px;">
+                        <div class="progress-bar ${colorClass}" role="progressbar" 
+                             style="width: ${area.percentage}%;" 
+                             aria-valuenow="${area.percentage}" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                `;
+                improvementList.appendChild(listItem);
+            });
+        }
+        
+        // Function to view exam details
+        function viewExamDetails(examId) {
+            const exam = examResults.find(e => e.id === examId);
+            if (!exam) return;
+
+            // Update modal content
+            document.getElementById('modalDate').textContent = exam.date;
+            document.getElementById('modalType').textContent = exam.type;
+            document.getElementById('modalTime').textContent = exam.timeTaken;
+            document.getElementById('modalScore').textContent = exam.score;
+            
+            const resultElement = document.getElementById('modalResult');
+            resultElement.textContent = exam.result;
+            resultElement.className = `badge ${exam.resultClass}`;
+
+            // Build question table
+            let tableHTML = '';
+            if (exam.questions && exam.questions.length > 0) {
+                exam.questions.forEach((q, index) => {
+                    tableHTML += `
+                        <tr>
+                            <td>${index + 1}. ${q.question.substring(0, 30)}...</td>
+                            <td>${q.userAnswer}</td>
+                            <td>${q.correctAnswer}</td>
+                            <td class="text-${q.isCorrect ? 'success' : 'danger'}">${q.isCorrect ? '<i class="bi bi-check-circle-fill"></i> Correct' : '<i class="bi bi-x-circle-fill"></i> Incorrect'}</td>
+                        </tr>
+                    `;
+                });
+            } else {
+                tableHTML = `
+                    <tr>
+                        <td colspan="4" class="text-center">
+                            <div class="alert alert-info mb-0">
+                                <small>Detailed question data is not available for this exam.</small>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }
+            document.getElementById('modalQuestionTable').innerHTML = tableHTML;
+
+            // Show modal
+            const modal = new bootstrap.Modal(document.getElementById('examDetailsModal'));
+            modal.show();
+        }
+
+        // Initialize the page when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            initializePage();
+        });
+    </script>
+} 

@@ -1,0 +1,202 @@
+@model DriveSmartAcademy.ViewModels.CourseViewModel
+@{
+    ViewData["Title"] = Model.CourseName;
+    Layout = "_StudentLayout";
+}
+
+<div class="container-fluid py-3">
+    <div class="row">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-2">
+                    <li class="breadcrumb-item"><a asp-action="Dashboard">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a asp-action="ViewCourses">Courses</a></li>
+                    <li class="breadcrumb-item active">@Model.CourseName</li>
+                </ol>
+            </nav>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h1 class="mb-0">@Model.CourseName</h1>
+                <span class="badge @(Model.CompletionPercentage == 100 ? "bg-success" : "bg-warning") fs-6">
+                    @(Model.CompletionPercentage == 100 ? "Completed" : "In Progress")
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-8">
+            <div class="card mb-3">
+                <div class="card-header">
+                    <h5 class="mb-0">Course Overview</h5>
+                </div>
+                <div class="card-body py-3">
+                    <p>@Model.Description</p>
+                    
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span>Progress:</span>
+                        <span class="fw-bold">@Model.CompletionPercentage%</span>
+                    </div>
+                    <div class="progress mb-3">
+                        <div class="progress-bar bg-success" role="progressbar" 
+                             style="width: @(Model.CompletionPercentage)%;" 
+                             aria-valuenow="@Model.CompletionPercentage" 
+                             aria-valuemin="0" aria-valuemax="100">
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between align-items-center">
+                        <small class="text-muted">Enrolled: @Model.EnrollmentDate.ToString("MMMM dd, yyyy")</small>
+                        @if (Model.CompletionPercentage == 100)
+                        {
+                            <span class="text-success"><i class="bi bi-check-circle-fill me-1"></i>Course Completed</span>
+                        }
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Course Modules</h5>
+                </div>
+                <div class="card-body py-3">
+                    @if (Model.Modules != null && Model.Modules.Any())
+                    {
+                        <div class="accordion" id="moduleAccordion">
+                            @foreach (var module in Model.Modules)
+                            {
+                                <div class="accordion-item mb-2">
+                                    <h2 class="accordion-header" id="heading@(module.ModuleId)">
+                                        <button class="accordion-button @(module.IsCompleted ? "" : "collapsed")" type="button" 
+                                                data-bs-toggle="collapse" data-bs-target="#collapse@(module.ModuleId)" 
+                                                aria-expanded="@(module.IsCompleted ? "true" : "false")" aria-controls="collapse@(module.ModuleId)">
+                                            <div class="d-flex justify-content-between align-items-center w-100 me-3">
+                                                <span>@module.ModuleName</span>
+                                                @if (module.IsCompleted)
+                                                {
+                                                    <span class="badge bg-success">Completed</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge bg-secondary">Not Completed</span>
+                                                }
+                                            </div>
+                                        </button>
+                                    </h2>
+                                    <div id="collapse@(module.ModuleId)" class="accordion-collapse collapse @(module.IsCompleted ? "show" : "")" 
+                                         aria-labelledby="heading@(module.ModuleId)" data-bs-parent="#moduleAccordion">
+                                        <div class="accordion-body py-2">
+                                            <p>This module covers essential concepts about @module.ModuleName.ToLower().</p>
+                                            
+                                            @if (!module.IsCompleted)
+                                            {
+                                                <form asp-action="CompleteModule" method="post">
+                                                    @if (Model.CourseId.ToString().Contains("-"))
+                                                    {
+                                                        <input type="hidden" name="courseGuid" value="@Model.CourseId" />
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="hidden" name="courseId" value="@Model.CourseId" />
+                                                    }
+                                                    <input type="hidden" name="moduleId" value="@module.ModuleId" />
+                                                    <button type="submit" class="btn btn-primary">
+                                                        <i class="bi bi-check-circle me-2"></i>Mark as Completed
+                                                    </button>
+                                                </form>
+                                            }
+                                            else
+                                            {
+                                                <div class="d-flex align-items-center text-success">
+                                                    <i class="bi bi-check-circle-fill me-2"></i>
+                                                    <span>You've completed this module!</span>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="text-center py-2">No modules available for this course.</p>
+                    }
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card mb-3">
+                <div class="card-header">
+                    <h5 class="mb-0">Course Resources</h5>
+                </div>
+                <div class="card-body py-2">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between align-items-center py-2">
+                            <span><i class="bi bi-file-pdf me-2"></i>Course Handbook</span>
+                            <a href="#" class="btn btn-sm btn-outline-primary">Download</a>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center py-2">
+                            <span><i class="bi bi-file-earmark-text me-2"></i>Study Guide</span>
+                            <a href="#" class="btn btn-sm btn-outline-primary">Download</a>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center py-2">
+                            <span><i class="bi bi-file-earmark-slides me-2"></i>Presentation Slides</span>
+                            <a href="#" class="btn btn-sm btn-outline-primary">Download</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="card mb-3">
+                <div class="card-header">
+                    <h5 class="mb-0">Course Quizzes</h5>
+                </div>
+                <div class="card-body py-2">
+                    <div class="list-group">
+                        <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center py-2">
+                            <span>Module 1 Quiz</span>
+                            <span class="badge bg-success">Completed</span>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center py-2">
+                            <span>Module 2 Quiz</span>
+                            <span class="badge bg-success">Completed</span>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center py-2">
+                            <span>Module 3 Quiz</span>
+                            <span class="badge bg-warning">Not Started</span>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center py-2">
+                            <span>Final Assessment</span>
+                            <span class="badge bg-secondary">Locked</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Need Help?</h5>
+                </div>
+                <div class="card-body py-2">
+                    <p>If you have any questions about this course, feel free to contact your instructor.</p>
+                    <a href="#" class="btn btn-primary w-100">
+                        <i class="bi bi-chat-dots me-2"></i>Contact Instructor
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Enable Bootstrap tooltips
+        document.addEventListener('DOMContentLoaded', function () {
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl)
+            });
+        });
+    </script>
+} 

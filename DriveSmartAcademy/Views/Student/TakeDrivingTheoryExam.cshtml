@@ -1,0 +1,574 @@
+@{
+    ViewData["Title"] = "Driving Theory Exam";
+    Layout = "_StudentLayout";
+}
+
+@Html.AntiForgeryToken()
+
+<div class="container-fluid py-2">
+    <div class="row mb-2">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-1">
+                    <li class="breadcrumb-item"><a asp-action="Dashboard">Dashboard</a></li>
+                    <li class="breadcrumb-item active">Driving Theory Exam</li>
+                </ol>
+            </nav>
+            <h1 class="mb-2">Driving Theory Exam</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <!-- Exam Introduction Card -->
+            <div class="card mb-3" id="examIntro">
+                <div class="card-header bg-primary text-white py-2 d-flex align-items-center">
+                    <i class="bi bi-journal-text me-2"></i>
+                    <h5 class="mb-0">Official Driving Theory Test</h5>
+                </div>
+                <div class="card-body">
+                    <p class="mb-3">This theory test consists of 20 multiple-choice questions covering essential driving knowledge and traffic rules. You have 20 minutes to complete the exam, and you need to score at least 85% (17/20) to pass.</p>
+                    
+                    <div class="alert alert-info mb-3">
+                        <div class="d-flex align-items-center">
+                            <i class="bi bi-info-circle-fill me-2 fs-5"></i>
+                            <div>
+                                <strong>Test Instructions:</strong>
+                                <ul class="mb-0 ps-3 mt-1">
+                                    <li>Read each question carefully</li>
+                                    <li>Select the best answer from the options provided</li>
+                                    <li>You can review and change your answers before submitting</li>
+                                    <li>The timer will start once you begin the exam</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex justify-content-center">
+                        <button class="btn btn-primary btn-lg" onclick="startExam()">
+                            <i class="bi bi-play-fill me-2"></i>Start Exam
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Exam Questions Card (Hidden initially) -->
+            <div class="card mb-3 d-none" id="examQuestions">
+                <div class="card-header bg-primary text-white py-2 d-flex justify-content-between align-items-center">
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-question-circle me-2"></i>
+                        <h5 class="mb-0">Question <span id="currentQuestionNum">1</span> of <span id="totalQuestions">20</span></h5>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-clock me-1"></i>
+                        <span id="timer">20:00</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h5 id="questionText" class="mb-3">Question text will appear here.</h5>
+                    
+                    <div id="optionsContainer" class="mb-4">
+                        <!-- Options will be dynamically added here -->
+                    </div>
+                    
+                    <div class="d-flex justify-content-between">
+                        <button class="btn btn-outline-secondary" onclick="previousQuestion()" id="prevBtn" disabled>
+                            <i class="bi bi-arrow-left me-1"></i>Previous
+                        </button>
+                        
+                        <div>
+                            <button class="btn btn-success" onclick="submitExam()" id="submitBtn" style="display: none;">
+                                <i class="bi bi-check-circle me-1"></i>Submit Exam
+                            </button>
+                        </div>
+                        
+                        <button class="btn btn-primary" onclick="nextQuestion()" id="nextBtn">
+                            Next<i class="bi bi-arrow-right ms-1"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Exam Results Card (Hidden initially) -->
+            <div class="card mb-3 d-none" id="examResults">
+                <div class="card-header bg-primary text-white py-2">
+                    <h5 class="mb-0"><i class="bi bi-clipboard-check me-2"></i>Exam Results</h5>
+                </div>
+                <div class="card-body">
+                    <div class="text-center mb-4">
+                        <div id="resultIcon" class="mb-3">
+                            <!-- Will be filled dynamically -->
+                        </div>
+                        <h3 id="resultTitle" class="mb-2">Exam Result</h3>
+                        <p id="resultMessage" class="mb-3">Your exam result message will appear here.</p>
+                        <div class="row justify-content-center mb-3">
+                            <div class="col-md-4 col-6">
+                                <div class="card bg-light">
+                                    <div class="card-body p-2 text-center">
+                                        <h2 id="scoreDisplay" class="mb-0">0%</h2>
+                                        <small class="text-muted">Score</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-6">
+                                <div class="card bg-light">
+                                    <div class="card-body p-2 text-center">
+                                        <h2 id="timeDisplay" class="mb-0">00:00</h2>
+                                        <small class="text-muted">Time Taken</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <h5 class="mb-2">Question Summary</h5>
+                        <div class="table-responsive">
+                            <table class="table table-sm table-bordered">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Question</th>
+                                        <th>Your Answer</th>
+                                        <th>Correct Answer</th>
+                                        <th>Result</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="resultTable">
+                                    <!-- Will be filled dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-center gap-2">
+                        <button class="btn btn-primary" onclick="reviewQuestions()">
+                            <i class="bi bi-eye me-1"></i>Review Questions
+                        </button>
+                        <button class="btn btn-success" onclick="manualSaveResults()">
+                            <i class="bi bi-save me-1"></i>Save Results
+                        </button>
+                        <a asp-action="ViewQuizResults" asp-controller="Student" class="btn btn-info">
+                            <i class="bi bi-list-check me-1"></i>View All Results
+                        </a>
+                        <a asp-action="Dashboard" class="btn btn-outline-secondary">
+                            <i class="bi bi-house me-1"></i>Return to Dashboard
+                        </a>
+                    </div>
+
+                    <!-- Status message placeholder -->
+                    <div id="saveStatusMessage" class="mt-3"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Hidden form for manual submission -->
+<form id="manualSubmitForm" method="POST" action="@Url.Action("SubmitTheoryExam", "Student")" style="display: none;">
+    @Html.AntiForgeryToken()
+    <input type="hidden" id="manualScore" name="Score" value="" />
+    <input type="hidden" id="manualTimeTaken" name="TimeTaken" value="" />
+    <input type="hidden" id="manualIsPassed" name="IsPassed" value="" />
+    <!-- The fields below are just for reference but not used in the database -->
+    <input type="hidden" id="manualQuizTitle" name="QuizTitle" value="" />
+    <input type="hidden" id="manualTotalQuestions" name="TotalQuestions" value="" />
+</form>
+
+@section Scripts {
+    <script>
+        // Questions data - in a real application, this would come from the server
+        const examQuestions = [
+            {
+                question: "What is the meaning of a red traffic light?",
+                options: ["Stop and wait", "Proceed with caution", "Slow down", "Turn right"],
+                correctAnswer: 0
+            },
+            {
+                question: "What does a yellow traffic light indicate?",
+                options: ["Speed up to cross the intersection", "Stop if safe to do so, as the light will soon turn red", "Slow down and proceed", "Yield to pedestrians only"],
+                correctAnswer: 1
+            },
+            {
+                question: "At what speed should you drive in a residential area with no posted speed limit?",
+                options: ["30 mph", "25 mph", "35 mph", "15 mph"],
+                correctAnswer: 1
+            },
+            {
+                question: "What should you do when approaching a railroad crossing with flashing lights?",
+                options: ["Cross quickly before the train arrives", "Stop at least 15 feet from the nearest rail", "Slow down and proceed if no train is visible", "Sound your horn and continue"],
+                correctAnswer: 1
+            },
+            {
+                question: "When driving in fog, you should use:",
+                options: ["High beam headlights", "Low beam headlights", "Hazard lights only", "No lights at all"],
+                correctAnswer: 1
+            },
+            {
+                question: "The minimum safe following distance under normal road conditions is:",
+                options: ["1 second", "2 seconds", "3 seconds", "5 seconds"],
+                correctAnswer: 2
+            },
+            {
+                question: "What does a solid white line between lanes indicate?",
+                options: ["Lane changes are prohibited", "Lane changes are discouraged", "Lane changes are permitted", "Carpool lane boundary"],
+                correctAnswer: 1
+            },
+            {
+                question: "When is it legal to pass on the right?",
+                options: ["When the vehicle ahead is making a left turn", "On a two-lane road", "When driving on a rural highway", "When passing a truck"],
+                correctAnswer: 0
+            },
+            {
+                question: "If your vehicle starts to hydroplane, you should:",
+                options: ["Brake hard immediately", "Accelerate to gain traction", "Turn the steering wheel quickly", "Ease off the accelerator and steer straight"],
+                correctAnswer: 3
+            },
+            {
+                question: "A diamond-shaped sign indicates:",
+                options: ["Stop", "School zone", "Warning", "Speed limit"],
+                correctAnswer: 2
+            },
+            {
+                question: "When parking downhill on a street with a curb, you should turn your wheels:",
+                options: ["Away from the curb", "Toward the curb", "Parallel to the curb", "It doesn't matter"],
+                correctAnswer: 1
+            },
+            {
+                question: "What is the primary purpose of an anti-lock braking system (ABS)?",
+                options: ["To reduce stopping distance on dry pavement", "To prevent wheel lock-up and allow steering during braking", "To prevent the vehicle from skidding in turns", "To reduce brake wear"],
+                correctAnswer: 1
+            },
+            {
+                question: "When making a right turn at a red light, you should:",
+                options: ["Come to a complete stop, yield to traffic and pedestrians, then turn if clear", "Slow down and turn if no traffic is coming", "Wait for the light to turn green", "Honk to alert pedestrians before turning"],
+                correctAnswer: 0
+            },
+            {
+                question: "How many drinks does it take to affect driving ability?",
+                options: ["None, any amount of alcohol affects driving ability", "One drink", "Two drinks", "Three drinks"],
+                correctAnswer: 0
+            },
+            {
+                question: "When are you required to stop for a school bus?",
+                options: ["Only when children are crossing", "When its red lights are flashing and it is on your side of the road", "When its red lights are flashing, regardless of which side of the road you are on", "Only when the bus driver signals you to stop"],
+                correctAnswer: 2
+            },
+            {
+                question: "What is the minimum tread depth required for safe tires?",
+                options: ["1/32 inch", "2/32 inch", "4/32 inch", "8/32 inch"],
+                correctAnswer: 1
+            },
+            {
+                question: "Which of the following factors does NOT affect blood alcohol concentration (BAC)?",
+                options: ["Body weight", "Amount of food in stomach", "Gender", "Hair color"],
+                correctAnswer: 3
+            },
+            {
+                question: "What does a flashing yellow traffic light mean?",
+                options: ["Stop and proceed when safe", "Stop if pedestrians are present", "Proceed with caution", "The light is about to turn red"],
+                correctAnswer: 2
+            },
+            {
+                question: "When two vehicles arrive at an uncontrolled intersection at the same time, who has the right of way?",
+                options: ["The vehicle on the right", "The vehicle on the left", "The vehicle going straight", "The larger vehicle"],
+                correctAnswer: 0
+            },
+            {
+                question: "What is the main purpose of seat belts?",
+                options: ["To prevent tickets", "To keep the driver alert", "To protect passengers from ejection and reduce impact force", "To meet legal requirements"],
+                correctAnswer: 2
+            }
+        ];
+
+        // Variables to track exam state
+        let currentQuestion = 0;
+        let userAnswers = Array(examQuestions.length).fill(null);
+        let timerInterval;
+        let timeRemaining = 20 * 60; // 20 minutes in seconds
+        let examStarted = false;
+        
+        // Function to start the exam
+        function startExam() {
+            document.getElementById('examIntro').classList.add('d-none');
+            document.getElementById('examQuestions').classList.remove('d-none');
+            
+            // Load the first question
+            loadQuestion(0);
+            
+            // Start the timer
+            timerInterval = setInterval(updateTimer, 1000);
+            examStarted = true;
+        }
+        
+        // Function to update the timer
+        function updateTimer() {
+            if (timeRemaining <= 0) {
+                clearInterval(timerInterval);
+                submitExam();
+                return;
+            }
+            
+            timeRemaining--;
+            
+            const minutes = Math.floor(timeRemaining / 60);
+            const seconds = timeRemaining % 60;
+            
+            document.getElementById('timer').textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+        
+        // Function to load a question
+        function loadQuestion(index) {
+            currentQuestion = index;
+            
+            const question = examQuestions[index];
+            
+            document.getElementById('currentQuestionNum').textContent = index + 1;
+            document.getElementById('totalQuestions').textContent = examQuestions.length;
+            document.getElementById('questionText').textContent = question.question;
+            
+            // Create options
+            const optionsContainer = document.getElementById('optionsContainer');
+            optionsContainer.innerHTML = '';
+            
+            question.options.forEach((option, i) => {
+                const optionDiv = document.createElement('div');
+                optionDiv.className = 'form-check mb-2';
+                
+                const input = document.createElement('input');
+                input.className = 'form-check-input';
+                input.type = 'radio';
+                input.name = 'question';
+                input.id = `option${i}`;
+                input.value = i;
+                
+                // Check if user already answered this question
+                if (userAnswers[index] === i) {
+                    input.checked = true;
+                }
+                
+                input.addEventListener('change', () => {
+                    userAnswers[index] = i;
+                });
+                
+                const label = document.createElement('label');
+                label.className = 'form-check-label';
+                label.htmlFor = `option${i}`;
+                label.textContent = option;
+                
+                optionDiv.appendChild(input);
+                optionDiv.appendChild(label);
+                optionsContainer.appendChild(optionDiv);
+            });
+            
+            // Update navigation buttons
+            document.getElementById('prevBtn').disabled = index === 0;
+            
+            // Show submit button on last question
+            if (index === examQuestions.length - 1) {
+                document.getElementById('nextBtn').style.display = 'none';
+                document.getElementById('submitBtn').style.display = 'block';
+            } else {
+                document.getElementById('nextBtn').style.display = 'block';
+                document.getElementById('submitBtn').style.display = 'none';
+            }
+        }
+        
+        // Function to navigate to previous question
+        function previousQuestion() {
+            if (currentQuestion > 0) {
+                loadQuestion(currentQuestion - 1);
+            }
+        }
+        
+        // Function to navigate to next question
+        function nextQuestion() {
+            if (currentQuestion < examQuestions.length - 1) {
+                loadQuestion(currentQuestion + 1);
+            }
+        }
+        
+        // Function to submit the exam
+        function submitExam() {
+            // Clear the timer
+            clearInterval(timerInterval);
+            
+            // Calculate the score
+            let correctAnswers = 0;
+            
+            for (let i = 0; i < examQuestions.length; i++) {
+                if (userAnswers[i] === examQuestions[i].correctAnswer) {
+                    correctAnswers++;
+                }
+            }
+            
+            const totalQuestions = examQuestions.length;
+            const score = Math.round((correctAnswers / totalQuestions) * 100);
+            
+            // Time taken calculation
+            const totalSeconds = 20 * 60 - timeRemaining;
+            const minutes = Math.floor(totalSeconds / 60);
+            const seconds = totalSeconds % 60;
+            const timeTaken = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            // Update the results display
+            document.getElementById('scoreDisplay').textContent = `${score}%`;
+            document.getElementById('timeDisplay').textContent = timeTaken;
+            
+            // Store the result for saving to database
+            window.examResult = {
+                examType: "Road Rules",
+                score: score,
+                totalQuestions: totalQuestions,
+                timeTaken: timeTaken,
+                correctAnswers: correctAnswers
+            };
+            
+            // Determine if the user passed (85% is passing)
+            const isPassed = score >= 85;
+            
+            if (isPassed) {
+                document.getElementById('resultIcon').innerHTML = '<i class="bi bi-check-circle-fill text-success" style="font-size: 4rem;"></i>';
+                document.getElementById('resultTitle').textContent = 'Exam Passed';
+                document.getElementById('resultTitle').className = 'mb-2 text-success';
+                document.getElementById('resultMessage').textContent = 'Congratulations! You have successfully passed the driving theory exam.';
+            } else {
+                document.getElementById('resultIcon').innerHTML = '<i class="bi bi-x-circle-fill text-danger" style="font-size: 4rem;"></i>';
+                document.getElementById('resultTitle').textContent = 'Exam Not Passed';
+                document.getElementById('resultTitle').className = 'mb-2 text-danger';
+                document.getElementById('resultMessage').textContent = 'You did not pass the driving theory exam this time. Review the questions you missed and try again.';
+            }
+            
+            // Build result table and prepare questions data for submission
+            let tableHTML = '';
+            const questionsData = [];
+            
+            for (let i = 0; i < examQuestions.length; i++) {
+                const question = examQuestions[i];
+                const userAnswer = userAnswers[i] !== null ? question.options[userAnswers[i]] : 'Not answered';
+                const correctAnswer = question.options[question.correctAnswer];
+                const isCorrect = userAnswers[i] === question.correctAnswer;
+                
+                // Add to questions data for submission
+                questionsData.push({
+                    question: question.question,
+                    userAnswer: userAnswer,
+                    correctAnswer: correctAnswer,
+                    isCorrect: isCorrect
+                });
+                
+                tableHTML += `
+                    <tr>
+                        <td>${i + 1}. ${question.question.substring(0, 30)}...</td>
+                        <td>${userAnswer}</td>
+                        <td>${correctAnswer}</td>
+                        <td class="text-${isCorrect ? 'success' : 'danger'}">${isCorrect ? '<i class="bi bi-check-circle-fill"></i> Correct' : '<i class="bi bi-x-circle-fill"></i> Incorrect'}</td>
+                    </tr>
+                `;
+            }
+            
+            document.getElementById('resultTable').innerHTML = tableHTML;
+            
+            // Add questions data to exam result for submission
+            window.examResult.questions = questionsData;
+            
+            // Show results
+            document.getElementById('examQuestions').classList.add('d-none');
+            document.getElementById('examResults').classList.remove('d-none');
+            
+            // Automatically save results to database
+            autoSaveResults();
+        }
+        
+        // Function to automatically save results to database
+        function autoSaveResults() {
+            if (!window.examResult) {
+                console.error('No exam results to save!');
+                return;
+            }
+            
+            try {
+                // Calculate whether the user passed based on score
+                const isPassed = parseInt(window.examResult.score) >= 85;
+                
+                // Fill in the form fields - exactly matching database column names
+                document.getElementById('manualScore').value = window.examResult.score;
+                document.getElementById('manualTimeTaken').value = window.examResult.timeTaken;
+                document.getElementById('manualIsPassed').value = isPassed ? 'true' : 'false';
+                
+                // Just for information/debugging
+                document.getElementById('manualQuizTitle').value = "Theory Exam: " + window.examResult.examType;
+                document.getElementById('manualTotalQuestions').value = window.examResult.totalQuestions;
+                
+                console.log("Auto-saving exam results with values:", {
+                    Score: document.getElementById('manualScore').value,
+                    TimeTaken: document.getElementById('manualTimeTaken').value,
+                    IsPassed: document.getElementById('manualIsPassed').value
+                });
+                
+                // Submit the form
+                document.getElementById('manualSubmitForm').submit();
+                console.log("Form auto-submitted");
+            } catch(e) {
+                console.error("Error auto-saving results:", e);
+            }
+        }
+        
+        // Function for manual saving of results
+        function manualSaveResults() {
+            if (!window.examResult) {
+                console.error('No exam results to save!');
+                return;
+            }
+            
+            // Show saving indicator
+            const statusDiv = document.getElementById('saveStatusMessage');
+            statusDiv.className = 'alert alert-info text-center mt-3';
+            statusDiv.innerHTML = '<i class="bi bi-hourglass-split me-1"></i> Saving your results...';
+            
+            try {
+                // Calculate whether the user passed based on score
+                const isPassed = parseInt(window.examResult.score) >= 85;
+                
+                // Fill in the form fields - exactly matching database column names
+                document.getElementById('manualScore').value = window.examResult.score;
+                document.getElementById('manualTimeTaken').value = window.examResult.timeTaken;
+                document.getElementById('manualIsPassed').value = isPassed ? 'true' : 'false';
+                
+                // Just for information/debugging
+                document.getElementById('manualQuizTitle').value = "Theory Exam: " + window.examResult.examType;
+                document.getElementById('manualTotalQuestions').value = window.examResult.totalQuestions;
+                
+                console.log("Manual form submission with values:", {
+                    Score: document.getElementById('manualScore').value,
+                    TimeTaken: document.getElementById('manualTimeTaken').value,
+                    IsPassed: document.getElementById('manualIsPassed').value
+                });
+                
+                // Submit the form
+                document.getElementById('manualSubmitForm').submit();
+                console.log("Manual form submitted");
+            } catch(e) {
+                console.error("Error with manual submission:", e);
+                statusDiv.className = 'alert alert-danger text-center mt-3';
+                statusDiv.innerHTML = '<i class="bi bi-exclamation-triangle me-1"></i> Error saving results. Please try again or contact support.';
+            }
+            
+            // Fallback in case form submission doesn't redirect
+            setTimeout(() => {
+                if (document.body.contains(statusDiv)) {
+                    statusDiv.className = 'alert alert-warning text-center mt-3';
+                    statusDiv.innerHTML = '<i class="bi bi-exclamation-circle me-1"></i> Results may not have been saved. Please <a href="@Url.Action("ViewQuizResults", "Student")" class="alert-link">check your results</a> or try again.';
+                }
+            }, 5000);
+        }
+        
+        // Function to review questions
+        function reviewQuestions() {
+            document.getElementById('examResults').classList.add('d-none');
+            document.getElementById('examQuestions').classList.remove('d-none');
+            
+            // Load the first question
+            loadQuestion(0);
+        }
+    </script>
+} 

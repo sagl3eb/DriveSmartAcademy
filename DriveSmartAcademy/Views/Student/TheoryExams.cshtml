@@ -1,0 +1,16 @@
+@{
+    Layout = "_StudentLayout";
+    ViewData["Title"] = "Theory Exams";
+}
+
+<!-- This page redirects to the new TakeDrivingTheoryExam page -->
+<div class="container mt-4">
+    <div class="alert alert-info">
+        <h4>Redirecting to Theory Exam page...</h4>
+        <p>If you are not redirected automatically, please <a href="@Url.Action("TakeDrivingTheoryExam", "Student")">click here</a>.</p>
+    </div>
+</div>
+
+<script>
+    window.location.href = '@Url.Action("TakeDrivingTheoryExam", "Student")';
+</script> 

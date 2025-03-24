@@ -1,0 +1,248 @@
+@model DriveSmartAcademy.ViewModels.TrackProgressViewModel
+@{
+    ViewData["Title"] = "Track Progress";
+    Layout = "_StudentLayout";
+}
+
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-action="Dashboard">Dashboard</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Track Progress</li>
+                </ol>
+            </nav>
+            <h1 class="mb-4">My Learning Progress</h1>
+        </div>
+    </div>
+
+    <!-- Progress Summary Cards -->
+    <div class="row mb-4">
+        <div class="col-md-6 col-xl-3 mb-3">
+            <div class="card h-100 dashboard-card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h6 class="text-muted mb-0">Overall Progress</h6>
+                        <div class="icon-box bg-light-primary">
+                            <i class="bi bi-graph-up text-primary"></i>
+                        </div>
+                    </div>
+                    <div class="progress-bar-container mb-2">
+                        <div class="progress-bar-fill bg-primary" style="width: @Model.OverallProgressPercentage%"></div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h3 class="mb-0">@Model.OverallProgressPercentage%</h3>
+                        <span class="badge bg-primary">@Model.CompletedCourses/@Model.EnrolledCourses Courses</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xl-3 mb-3">
+            <div class="card h-100 dashboard-card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h6 class="text-muted mb-0">Modules Completed</h6>
+                        <div class="icon-box bg-light-success">
+                            <i class="bi bi-collection text-success"></i>
+                        </div>
+                    </div>
+                    <div class="progress-bar-container mb-2">
+                        <div class="progress-bar-fill bg-success" 
+                             style="width: @(Model.TotalModules > 0 ? (Model.CompletedModules * 100 / Model.TotalModules) : 0)%"></div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h3 class="mb-0">@Model.CompletedModules/@Model.TotalModules</h3>
+                        <span class="badge bg-success">
+                            @(Model.TotalModules > 0 ? Math.Round((double)Model.CompletedModules / Model.TotalModules * 100, 0) : 0)%
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xl-3 mb-3">
+            <div class="card h-100 dashboard-card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h6 class="text-muted mb-0">Quizzes Completed</h6>
+                        <div class="icon-box bg-light-info">
+                            <i class="bi bi-check2-circle text-info"></i>
+                        </div>
+                    </div>
+                    <div class="progress-bar-container mb-2">
+                        <div class="progress-bar-fill bg-info" 
+                             style="width: @(Model.TotalQuizzes > 0 ? (Model.CompletedQuizzes * 100 / Model.TotalQuizzes) : 0)%"></div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h3 class="mb-0">@Model.CompletedQuizzes</h3>
+                        @if (Model.CompletedQuizzes > 0)
+                        {
+                            <a asp-action="ViewQuizResults" class="btn btn-sm btn-outline-info">View Results</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xl-3 mb-3">
+            <div class="card h-100 dashboard-card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h6 class="text-muted mb-0">Available Courses</h6>
+                        <div class="icon-box bg-light-warning">
+                            <i class="bi bi-book text-warning"></i>
+                        </div>
+                    </div>
+                    <h3 class="mb-0">@Model.TotalCourses</h3>
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                        <span class="text-muted">@Model.EnrolledCourses Enrolled</span>
+                        <a asp-action="ViewCourses" class="btn btn-sm btn-outline-warning">Browse Courses</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Course Progress List -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0"><i class="bi bi-list-check me-2"></i>Course Progress</h5>
+                </div>
+                <div class="card-body">
+                    @if (Model.CourseProgressList.Any())
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Course</th>
+                                        <th>Enrollment Date</th>
+                                        <th>Status</th>
+                                        <th>Progress</th>
+                                        <th>Modules</th>
+                                        <th>Last Accessed</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var course in Model.CourseProgressList)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <strong>@course.CourseName</strong>
+                                            </td>
+                                            <td>
+                                                @course.EnrollmentDate.ToString("MMM dd, yyyy")
+                                            </td>
+                                            <td>
+                                                <span class="badge @(course.Status == "Completed" ? "bg-success" : "bg-primary")">
+                                                    @course.Status
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="progress-bar-container me-2" style="width: 100px;">
+                                                        <div class="progress-bar-fill @(course.Status == "Completed" ? "bg-success" : "bg-primary")" 
+                                                             style="width: @course.ProgressPercentage%">
+                                                        </div>
+                                                    </div>
+                                                    <span>@course.ProgressPercentage%</span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                @course.CompletedModules / @course.TotalModules
+                                            </td>
+                                            <td>
+                                                @if (!string.IsNullOrEmpty(course.LastAccessedLesson))
+                                                {
+                                                    <span title="@course.LastAccessedLesson">
+                                                        @(course.LastAccessedLesson.Length > 25 
+                                                          ? course.LastAccessedLesson.Substring(0, 22) + "..." 
+                                                          : course.LastAccessedLesson)
+                                                    </span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="text-muted">Not started</span>
+                                                }
+                                            </td>
+                                            <td>
+                                                @if (course.Status == "Completed")
+                                                {
+                                                    <a asp-action="SelectCourse" asp-route-courseId="@course.CourseId" 
+                                                       class="btn btn-sm btn-outline-success">
+                                                        <i class="bi bi-eye me-1"></i>Review
+                                                    </a>
+                                                }
+                                                else if (!string.IsNullOrEmpty(course.LastAccessedLesson) && course.LastAccessedLessonId.HasValue)
+                                                {
+                                                    <a asp-action="ResumeLesson" asp-route-lessonId="@course.LastAccessedLessonId" 
+                                                       class="btn btn-sm btn-outline-primary">
+                                                        <i class="bi bi-play-fill me-1"></i>Resume
+                                                    </a>
+                                                }
+                                                else
+                                                {
+                                                    <a asp-action="SelectCourse" asp-route-courseId="@course.CourseId" 
+                                                       class="btn btn-sm btn-outline-primary">
+                                                        <i class="bi bi-play-fill me-1"></i>Start
+                                                    </a>
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="text-center py-5">
+                            <i class="bi bi-journal-x" style="font-size: 3rem; color: #ccc;"></i>
+                            <h4 class="mt-3">No Courses Enrolled</h4>
+                            <p class="text-muted">You haven't enrolled in any courses yet.</p>
+                            <a asp-action="ViewCourses" class="btn btn-primary mt-2">Browse Courses</a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .progress-bar-container {
+        height: 8px;
+        background-color: #e9ecef;
+        border-radius: 4px;
+        overflow: hidden;
+    }
+    
+    .progress-bar-fill {
+        height: 100%;
+        transition: width 0.6s ease;
+    }
+</style>
+
+@section Scripts {
+    <script>
+        // Animation for progress bars
+        document.addEventListener('DOMContentLoaded', function() {
+            const progressBars = document.querySelectorAll('.progress-bar-fill');
+            setTimeout(() => {
+                progressBars.forEach(bar => {
+                    const width = bar.style.width;
+                    bar.style.width = 0;
+                    setTimeout(() => {
+                        bar.style.transition = 'width 1s ease-out';
+                        bar.style.width = width;
+                    }, 100);
+                });
+            }, 200);
+        });
+    </script>
+} 
